@@ -10,6 +10,7 @@ import UIKit
 
 protocol PinTexFieldDelegate : UITextFieldDelegate {
     func didPressBackspace(textField : PinTextField)
+
 }
 
 class PinTextField: UITextField {
