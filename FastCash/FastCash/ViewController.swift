@@ -31,6 +31,7 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.phoneNumber_e164 = Storage.phoneNumberInE164 ?? "  "
         let startingString =  String(self.phoneNumber_e164.dropFirst(2))
         self.textField.text = startingString

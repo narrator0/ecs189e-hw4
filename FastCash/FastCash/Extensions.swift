@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PinTexFieldDelegate : UITextFieldDelegate {
+protocol PinTextFieldDelegate : UITextFieldDelegate {
     func didPressBackspace(textField : PinTextField)
 
 }
@@ -16,7 +16,7 @@ protocol PinTexFieldDelegate : UITextFieldDelegate {
 class PinTextField: UITextField {
 
     override func deleteBackward() {
-        if let pinDelegate = self.delegate as? PinTexFieldDelegate {
+        if let pinDelegate = self.delegate as? PinTextFieldDelegate {
             pinDelegate.didPressBackspace(textField: self)
         }
         super.deleteBackward()
