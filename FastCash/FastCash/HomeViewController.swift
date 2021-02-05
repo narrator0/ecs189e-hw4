@@ -21,6 +21,8 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         print("IN Load")
         if self.name == "" {
             self.name = self.phoneNumber
@@ -30,7 +32,7 @@ class HomeViewController: UIViewController, UITableViewDataSource {
         print(self.Name.text)
         self.TableView.dataSource = self
         self.totalAmount = accounts.reduce(0.0, {$0+$1.amount})
-        self.TotalAmountLabel.text = String(format: "Your Total Amount is $%.02f", self.totalAmount)
+        self.TotalAmountLabel.text =  "Your Total Amount is  \(self.formatMoney(amount: self.totalAmount))"
     }
     
     @IBAction func nameEdited() {
@@ -62,9 +64,8 @@ class HomeViewController: UIViewController, UITableViewDataSource {
             assertionFailure("couldn't find vc")
             return
         }
-        if let nav = self.presentingViewController as? UINavigationController {
-            nav.viewControllers = [loginVC]
-            self.dismiss(animated: true, completion: nil)
+        if let nav = self.navigationController {
+            nav.setViewControllers([loginVC], animated: true)
         } else {
             assertionFailure("no navigation controller")
         }
@@ -82,11 +83,29 @@ class HomeViewController: UIViewController, UITableViewDataSource {
             return UITableViewCell.init()
         }
         cell.textLabel?.text = accounts[indexPath.row].name
-        let amount = String(format: "$%.02f", accounts[indexPath.row].amount)
+        let amount = " \(self.formatMoney(amount: accounts[indexPath.row].amount))"
         cell.detailTextLabel?.text = amount
         
         
         return cell
+    }
+    
+    func formatMoney(amount: Double) -> String {
+        let charactersRev: [Character] = String(format: "$%.02f", amount).reversed()
+        if charactersRev.count < 7 {
+            return String(format: "$%.02f", amount)
+        }
+        var newChars: [Character] = []
+        for (index, char) in zip(0...(charactersRev.count-1), charactersRev) {
+            if (index-6)%3 == 0 && (index-6) > -1 && char != "$"{
+                newChars.append(",")
+                newChars.append(char)
+            } else {
+                newChars.append(char)
+            }
+        }
+        
+        return String(newChars.reversed())
     }
     
     @IBAction func tap(_ sender: Any) {

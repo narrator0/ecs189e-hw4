@@ -42,7 +42,9 @@ class VerificationViewController: UIViewController, PinTextFieldDelegate {
     func didPressBackspace(textField: PinTextField) {
         
         // moving back is a little confusing since it competes with the code for moving forward, which occurs whenever a textbox value is changed. I have outlined how we function in 4 cases based on the question: are we in the first box, and are we empty or full?
-        
+        if self.currentField > 5 {
+            self.currentField = 5
+        }
         let boxEmpty = (self.fields[self.currentField].text ?? "").count == 0
         let firstBox = self.currentField == 0
         
@@ -124,6 +126,9 @@ class VerificationViewController: UIViewController, PinTextFieldDelegate {
     
     // code for what to do when the field is being edited
     @IBAction func editedField(_ sender: Any) {
+        // empty error label
+        self.ErrorLabel.text = ""
+        
         // get what the text looks like as a whole
         let text = self.fields.compactMap({$0.text}).reduce("", {$0 + $1})
         // if we go over the text length, we want to fill with "blanks" or empty strings

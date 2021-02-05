@@ -73,7 +73,9 @@ class ViewController: UIViewController {
                     homeVC.accounts = wallet.accounts
                     print("PH: \(self.phoneNumber_e164)")
                     homeVC.phoneNumber = self.phoneNumber_e164
-                    self.navigationController?.present(homeVC, animated: true)
+                    if let nav = self.navigationController {
+                        nav.setViewControllers([homeVC], animated: true)
+                    }
                 }
             })
         }
