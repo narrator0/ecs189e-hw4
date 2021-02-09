@@ -55,10 +55,10 @@ class Wallet {
     }
     
     init(data: [String: Any], ifGenerateAccounts: Bool) {
-        let walletData = data["user"] as! [String:Any]
+        let walletData = data["user"] as? [String:Any] ?? ["":""]
         self.userName = walletData["name"] as? String
         self.totalAmount = 0.0
-        self.phoneNumber = walletData["e164_phone_number"] as! String
+        self.phoneNumber = walletData["e164_phone_number"] as? String ?? ""
         self.accounts = [Account]()
 
         if ifGenerateAccounts {

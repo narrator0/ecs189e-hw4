@@ -13,6 +13,7 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var TableView: UITableView!
     @IBOutlet weak var Name: UITextField!
     @IBOutlet weak var TotalAmountLabel: UILabel!
+    @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
     var phoneNumber = ""
     var name = ""
@@ -21,51 +22,63 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        print("IN Load")
-        if self.name == "" {
-            self.name = self.phoneNumber
-        }
-        self.Name.text = self.name
-        print(self.name)
-        print(self.Name.text)
+        self.navigationController?.navigationBar.isHidden = true
         self.TableView.dataSource = self
-        self.totalAmount = accounts.reduce(0.0, {$0+$1.amount})
-        self.TotalAmountLabel.text =  "Your Total Amount is  \(self.formatMoney(amount: self.totalAmount))"
+        self.setValues()
+    }
+    
+    func setValues() {
+        self.wait()
+        Api.user(completion: { response, error in
+            guard let resp = response else {
+                return
+            }
+            // initialize the next view's Wallet based on the response variable
+            let wallet = Wallet.init(data: resp, ifGenerateAccounts: false)
+            
+            self.name = wallet.userName ?? ""
+            if self.name == "" {
+                self.name = self.phoneNumber
+            }
+            self.Name.text = self.name
+            self.accounts = wallet.accounts
+            self.phoneNumber = wallet.phoneNumber
+            self.totalAmount = self.accounts.reduce(0.0, {$0+$1.amount})
+            self.TotalAmountLabel.text =  "Your Total Amount is  \(self.formatMoney(amount: self.totalAmount))"
+            self.TableView.reloadData()
+            self.start()
+        })
     }
     
     @IBAction func nameEdited() {
-        print("edited")
-        print(self.phoneNumber)
         var text = Name.text ?? ""
-        print(text)
         if text.count == 0{
             text = self.phoneNumber
         }
-        print(text)
         self.name = text
         Name.text = text
         Api.setName(name: self.name, completion: { response, error in
-            
+            if let err = error {
+                print(err)
+            } else if let resp = response {
+                print(resp)
+            }
         })
     }
     
     @IBAction func logOut(_ sender: Any) {
-        print("logging Out")
-        print(self.accounts)
         Api.setAccounts(accounts: self.accounts, completion: { response, error in
-            
+            if let err = error {
+                print(err)
+            } else if let resp = response {
+                print(resp)
+            }
         })
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(identifier: "login")
-        
-        guard let loginVC = vc as? ViewController else {
-            assertionFailure("couldn't find vc")
-            return
-        }
+        let loginVC = storyboard.instantiateViewController(identifier: "login")
         if let nav = self.navigationController {
-            nav.setViewControllers([loginVC], animated: true)
+            nav.setViewControllers([loginVC, self], animated: false)
+            nav.popToRootViewController(animated: true)
         } else {
             assertionFailure("no navigation controller")
         }
@@ -78,15 +91,13 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell =  tableView.dequeueReusableCell(withIdentifier: "cell") else {
-            assertionFailure("idk what happened")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else {
+            assertionFailure("Cell dequeue error")
             return UITableViewCell.init()
         }
         cell.textLabel?.text = accounts[indexPath.row].name
         let amount = " \(self.formatMoney(amount: accounts[indexPath.row].amount))"
         cell.detailTextLabel?.text = amount
-        
-        
         return cell
     }
     
@@ -110,5 +121,16 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     
     @IBAction func tap(_ sender: Any) {
         self.view.endEditing(true)
+    }
+    
+    func wait() {
+        self.ActivityIndicator.startAnimating()
+        self.view.alpha = 0.2
+        self.view.isUserInteractionEnabled = false
+    }
+    func start() {
+        self.ActivityIndicator.stopAnimating()
+        self.view.alpha = 1
+        self.view.isUserInteractionEnabled = true
     }
 }

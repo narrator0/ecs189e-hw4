@@ -37,6 +37,8 @@ class VerificationViewController: UIViewController, PinTextFieldDelegate {
         self.fields = self.fields.map({$0.delegate = self; return $0})
         self.moveCursor(OTP1)
         sentToNumber.text = "Code was sent to \(self.phoneNum)"
+        
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     func didPressBackspace(textField: PinTextField) {
@@ -77,26 +79,14 @@ class VerificationViewController: UIViewController, PinTextFieldDelegate {
                 Storage.phoneNumberInE164 = self.phoneNum
                 Storage.authToken = resp["auth_token"] as? String
                 
-                // initialize the next view's Wallet based on the response variable
-                let wallet = Wallet.init(data: resp, ifGenerateAccounts: false)
-                
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewController(identifier: "home")
-                
-                guard let homeVC = vc as? HomeViewController else {
-                    assertionFailure("couldn't find vc")
-                    return
-                }
                 guard let navC = self.navigationController else {
                     assertionFailure("couldn't find navigation controller")
                     return
                 }
                 
-                homeVC.name = wallet.userName ?? ""
-                homeVC.accounts = wallet.accounts
-                homeVC.phoneNumber = wallet.phoneNumber
-                
-                navC.setViewControllers([homeVC], animated: true)
+                navC.setViewControllers([vc], animated: true)
             }
             else {
                 self.ErrorLabel.text = error?.message

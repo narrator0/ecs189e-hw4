@@ -12,7 +12,7 @@
         <!--Navigation Controller-->
         <scene sceneID="iN4-8G-UKz">
             <objects>
-                <navigationController modalTransitionStyle="crossDissolve" id="W9l-gK-ddu" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="nav" modalTransitionStyle="crossDissolve" useStoryboardIdentifierAsRestorationIdentifier="YES" id="W9l-gK-ddu" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1Jr-V7-7M5">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -163,7 +163,7 @@
                                             <constraint firstAttribute="width" constant="45" id="BZv-Ny-gSB"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -183,7 +183,7 @@
                                             <constraint firstAttribute="width" constant="45" id="5k2-y7-xec"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -203,7 +203,7 @@
                                             <constraint firstAttribute="width" constant="45" id="OBr-J1-Iwm"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -223,7 +223,7 @@
                                             <constraint firstAttribute="width" constant="45" id="zpE-Cp-c09"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -243,7 +243,7 @@
                                             <constraint firstAttribute="width" constant="45" id="xGn-HQ-2Xu"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -263,7 +263,7 @@
                                             <constraint firstAttribute="width" constant="45" id="ixs-fg-Xal"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="one-time-code"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
@@ -341,7 +341,7 @@
         <!--Home View Controller-->
         <scene sceneID="uIK-IS-i6D">
             <objects>
-                <viewController restorationIdentifier="home" storyboardIdentifier="home" modalTransitionStyle="flipHorizontal" modalPresentationStyle="fullScreen" id="gqT-FJ-UOJ" customClass="HomeViewController" customModule="FastCash" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="home" storyboardIdentifier="home" modalTransitionStyle="flipHorizontal" id="gqT-FJ-UOJ" customClass="HomeViewController" customModule="FastCash" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZGH-Ln-Bvn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -424,6 +424,9 @@
                                     <action selector="logOut:" destination="gqT-FJ-UOJ" eventType="touchUpInside" id="oSF-Pv-JqV"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="WxO-8j-so8">
+                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HRm-H0-X9e"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -437,6 +440,8 @@
                             <constraint firstItem="HRm-H0-X9e" firstAttribute="trailing" secondItem="i6p-bm-HkH" secondAttribute="trailing" constant="40" id="BxW-TH-pav"/>
                             <constraint firstItem="HRm-H0-X9e" firstAttribute="trailing" secondItem="bXZ-hn-0fA" secondAttribute="trailing" constant="20" id="L8i-lc-COe"/>
                             <constraint firstItem="0y3-Ej-u3p" firstAttribute="top" secondItem="GK0-Wb-WhH" secondAttribute="bottom" constant="5" id="MZO-9u-hpp"/>
+                            <constraint firstItem="WxO-8j-so8" firstAttribute="centerX" secondItem="ZGH-Ln-Bvn" secondAttribute="centerX" id="PWU-Fu-cgv"/>
+                            <constraint firstItem="WxO-8j-so8" firstAttribute="centerY" secondItem="ZGH-Ln-Bvn" secondAttribute="centerY" id="QlR-cm-57s"/>
                             <constraint firstItem="bXZ-hn-0fA" firstAttribute="top" secondItem="0y3-Ej-u3p" secondAttribute="bottom" constant="10" id="svu-AA-cvE"/>
                             <constraint firstItem="bXZ-hn-0fA" firstAttribute="leading" secondItem="HRm-H0-X9e" secondAttribute="leading" constant="20" id="uwD-3o-MXJ"/>
                             <constraint firstItem="GK0-Wb-WhH" firstAttribute="leading" secondItem="HRm-H0-X9e" secondAttribute="leading" constant="40" id="uxl-UD-xo7"/>
@@ -445,7 +450,9 @@
                             <outletCollection property="gestureRecognizers" destination="hym-tJ-Ds8" appends="YES" id="JMf-Pr-FOM"/>
                         </connections>
                     </view>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="ActivityIndicator" destination="WxO-8j-so8" id="jpx-wH-Syu"/>
                         <outlet property="Name" destination="sar-45-sH9" id="cTM-fs-MhO"/>
                         <outlet property="TableView" destination="bXZ-hn-0fA" id="osi-PU-7wK"/>
                         <outlet property="TotalAmountLabel" destination="0y3-Ej-u3p" id="Bnr-be-GOV"/>

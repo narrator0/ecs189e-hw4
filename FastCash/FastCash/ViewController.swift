@@ -55,29 +55,14 @@ class ViewController: UIViewController {
             errorLabel.text = "Please enter a valid number"
             errorLabel.textColor = UIColor.systemRed
         } else if(Storage.authToken != nil && self.phoneNumber_e164 == Storage.phoneNumberInE164) {
-            print("PhoneNumber: \(Storage.phoneNumberInE164)")
-            Api.user(completion: {
-                response, error in
-                if let resp = response {
-                    let wallet = Wallet.init(data: resp, ifGenerateAccounts: false)
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewController(identifier: "home")
-                    
-                    guard let homeVC = vc as? HomeViewController else {
-                        assertionFailure("couldn't find vc")
-                        return
-                    }
-                    
-                    homeVC.name = wallet.userName ?? ""
-                    homeVC.accounts = wallet.accounts
-                    print("PH: \(self.phoneNumber_e164)")
-                    homeVC.phoneNumber = self.phoneNumber_e164
-                    if let nav = self.navigationController {
-                        nav.setViewControllers([homeVC], animated: true)
-                    }
-                }
-            })
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(identifier: "home")
+            guard let navC = self.navigationController else {
+                assertionFailure("couldn't find navigation controller")
+                return
+            }
+            
+            navC.setViewControllers([vc], animated: true)
         }
         else {
             Api.sendVerificationCode(phoneNumber: self.phoneNumber_e164, completion: { response, error in
