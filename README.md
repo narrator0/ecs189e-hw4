@@ -1,3 +1,2 @@
-# Homework 3
-## Student Name
-## Student ID
+# Your Name
+## SID: Your Student ID

@@ -10,18 +10,6 @@ import Foundation
 
 struct Api {
     
-    private static var phoneNumber: String = "";
-    private static let defaultResponse: [String: Any]? = ["status": "ok", "auth_token": phoneNumber, "user": [
-        "drivers_license": nil,
-        "e164_phone_number" : phoneNumber,
-        "email" : nil,
-        "keyfile_password" : "BtEik_-jGpZEwHPZD4rV1YIm5XuXB5Zh",
-        "name" : phoneNumber,
-        "tos_accpted" : 0,
-        "user_id" : "ahJzfmVjczE4OWUtZmFsbDIwMThyEQsSBFVzZXIYgICAgLyhggoM"
-            
-    ], "is_new_user": 1]
-    
     struct ApiError: Error {
         var message: String
         var code: String
@@ -85,18 +73,6 @@ struct Api {
             }
             }.resume()
     }
-    static func testSendVerificationCode(phoneNumber: String, completion: @escaping ApiCompletion) {
-        self.phoneNumber = phoneNumber
-        DispatchQueue.main.async { completion(defaultResponse, nil) }
-    }
-    
-    static func testVerifyCode(phoneNumber: String, code: String, completion: @escaping ApiCompletion) {
-        if phoneNumber == self.phoneNumber && code == "123456" {
-            DispatchQueue.main.async { completion(defaultResponse, nil) }
-        } else {
-            DispatchQueue.main.async { completion(nil, defaultError) }
-        }
-    }
     
     static func sendVerificationCode(phoneNumber: String, completion: @escaping ApiCompletion) {
         ApiCall(endpoint: "/send_verification_code",
@@ -127,6 +103,48 @@ struct Api {
     static func user(completion: @escaping ApiCompletion) {
         ApiCall(endpoint: "/user",
                 parameters: [:],
+                completion: completion)
+    }
+    
+    static func deposit(wallet: Wallet, toAccountAt accountIndex: Int, amount: Double, completion: @escaping ApiCompletion) {
+        wallet.accounts[accountIndex].amount += amount
+        wallet.totalAmount += amount
+        let serverAccounts = wallet.accounts.map { ["name": $0.name, "ID": $0.ID, "amount": String($0.amount)] }
+        ApiCall(endpoint: "/user",
+                parameters: ["accounts": serverAccounts],
+                completion: completion)
+    }
+    static func withdraw(wallet: Wallet, fromAccountAt accountIndex: Int, amount: Double, completion: @escaping ApiCompletion) {
+        wallet.accounts[accountIndex].amount -= amount
+        wallet.totalAmount -= amount
+        let serverAccounts = wallet.accounts.map { ["name": $0.name, "ID": $0.ID, "amount": String($0.amount)] }
+        ApiCall(endpoint: "/user",
+                parameters: ["accounts": serverAccounts],
+                completion: completion)
+    }
+    static func transfer(wallet: Wallet, fromAccountAt fromIndex: Int, toAccountAt toIndex: Int, amount: Double, completion: @escaping ApiCompletion) {
+        wallet.accounts[fromIndex].amount -= amount
+        wallet.accounts[toIndex].amount += amount
+        let serverAccounts = wallet.accounts.map { ["name": $0.name, "ID": $0.ID, "amount": String($0.amount)] }
+        ApiCall(endpoint: "/user",
+                parameters: ["accounts": serverAccounts],
+                completion: completion)
+    }
+    
+    static func addNewAccount(wallet: Wallet, newAccountName name: String, completion: @escaping ApiCompletion) {
+        let newAccount = Account.init(name: name)
+        wallet.accounts.append(newAccount)
+        let serverAccounts = wallet.accounts.map { ["name": $0.name, "ID": $0.ID, "amount": String($0.amount)] }
+        ApiCall(endpoint: "/user",
+                parameters: ["accounts": serverAccounts],
+                completion: completion)
+    }
+    static func removeAccount(wallet: Wallet, removeAccountat index: Int, completion: @escaping ApiCompletion) {
+        wallet.totalAmount -= wallet.accounts[index].amount
+        wallet.accounts.remove(at: index)
+        let serverAccounts = wallet.accounts.map { ["name": $0.name, "ID": $0.ID, "amount": String($0.amount)] }
+        ApiCall(endpoint: "/user",
+                parameters: ["accounts": serverAccounts],
                 completion: completion)
     }
 }
