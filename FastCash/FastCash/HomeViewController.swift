@@ -8,12 +8,14 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDataSource {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var TableView: UITableView!
     @IBOutlet weak var Name: UITextField!
     @IBOutlet weak var TotalAmountLabel: UILabel!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
+    
+    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     
     var phoneNumber = ""
     var name = ""
@@ -24,7 +26,16 @@ class HomeViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         self.TableView.dataSource = self
+        self.TableView.delegate = self
         self.setValues()
+        self.tapGestureRecognizer.isEnabled = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedIndexPath = TableView.indexPathForSelectedRow {
+            TableView.deselectRow(at: selectedIndexPath, animated: animated)
+        }
     }
     
     func setValues() {
@@ -66,6 +77,10 @@ class HomeViewController: UIViewController, UITableViewDataSource {
         })
     }
     
+    @IBAction func startedEditing(_ sender: Any) {
+        self.tapGestureRecognizer.isEnabled = true
+    }
+    
     @IBAction func logOut(_ sender: Any) {
         Api.setAccounts(accounts: self.accounts, completion: { response, error in
             if let err = error {
@@ -82,6 +97,10 @@ class HomeViewController: UIViewController, UITableViewDataSource {
         } else {
             assertionFailure("no navigation controller")
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
     }
     
     
@@ -121,6 +140,7 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     
     @IBAction func tap(_ sender: Any) {
         self.view.endEditing(true)
+        self.tapGestureRecognizer.isEnabled = false
     }
     
     func wait() {

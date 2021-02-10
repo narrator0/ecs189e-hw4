@@ -395,6 +395,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <action selector="nameEdited" destination="gqT-FJ-UOJ" eventType="editingDidEnd" id="JIS-xl-i1b"/>
+                                            <action selector="startedEditing:" destination="gqT-FJ-UOJ" eventType="editingDidBegin" id="AIb-yP-udX"/>
                                         </connections>
                                     </textField>
                                 </subviews>
@@ -456,6 +457,7 @@
                         <outlet property="Name" destination="sar-45-sH9" id="cTM-fs-MhO"/>
                         <outlet property="TableView" destination="bXZ-hn-0fA" id="osi-PU-7wK"/>
                         <outlet property="TotalAmountLabel" destination="0y3-Ej-u3p" id="Bnr-be-GOV"/>
+                        <outlet property="tapGestureRecognizer" destination="hym-tJ-Ds8" id="gOl-3l-KCr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xM5-iE-GL1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
