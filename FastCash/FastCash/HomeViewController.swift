@@ -89,6 +89,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 print(resp)
             }
         })
+        
+        Storage.authToken = nil
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let loginVC = storyboard.instantiateViewController(identifier: "login")
         if let nav = self.navigationController {
