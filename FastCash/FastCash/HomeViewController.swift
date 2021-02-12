@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PopupEnded {
 
     @IBOutlet weak var TableView: UITableView!
     @IBOutlet weak var Name: UITextField!
@@ -21,6 +21,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var name = ""
     var totalAmount = 0.0
     var accounts: [Account] = []
+    var wallet: Wallet? = Optional.none
+    
+    var popup: CustomPopup? = Optional.none
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +32,19 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.TableView.delegate = self
         self.setValues()
         self.tapGestureRecognizer.isEnabled = false
+        
+        // set up popup
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        let popup = CustomPopup(frame: frame)
+        self.view.addSubview(popup)
+        popup.isHidden = true
+        popup.delegate = self
+        self.popup = popup
+    }
+    
+    @IBAction func createButtonPressed(_ sender: Any) {
+        self.popup?.setTitle(title: "Please name your new account")
+        self.popup?.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,25 +54,31 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    func updateWallet(response: [String: Any]?) {
+        guard let resp = response else {
+            return
+        }
+        
+        // initialize the next view's Wallet based on the response variable
+        let wallet = Wallet.init(data: resp, ifGenerateAccounts: false)
+        
+        self.name = wallet.userName ?? ""
+        if self.name == "" {
+            self.name = self.phoneNumber
+        }
+        self.Name.text = self.name
+        self.accounts = wallet.accounts
+        self.phoneNumber = wallet.phoneNumber
+        self.totalAmount = self.accounts.reduce(0.0, {$0+$1.amount})
+        self.TotalAmountLabel.text =  "Your Total Amount is  \(self.formatMoney(amount: self.totalAmount))"
+        self.TableView.reloadData()
+        self.wallet = wallet
+    }
+    
     func setValues() {
         self.wait()
         Api.user(completion: { response, error in
-            guard let resp = response else {
-                return
-            }
-            // initialize the next view's Wallet based on the response variable
-            let wallet = Wallet.init(data: resp, ifGenerateAccounts: false)
-            
-            self.name = wallet.userName ?? ""
-            if self.name == "" {
-                self.name = self.phoneNumber
-            }
-            self.Name.text = self.name
-            self.accounts = wallet.accounts
-            self.phoneNumber = wallet.phoneNumber
-            self.totalAmount = self.accounts.reduce(0.0, {$0+$1.amount})
-            self.TotalAmountLabel.text =  "Your Total Amount is  \(self.formatMoney(amount: self.totalAmount))"
-            self.TableView.reloadData()
+            self.updateWallet(response: response)
             self.start()
         })
     }
@@ -139,6 +161,15 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         
         return String(newChars.reversed())
+    }
+    
+    func popupDidEnd(input: String) {
+        guard let wallet = self.wallet else { return }
+        self.wait()
+        Api.addNewAccount(wallet: wallet, newAccountName: input) { res, err in
+            self.updateWallet(response: res)
+            self.start()
+        }
     }
     
     @IBAction func tap(_ sender: Any) {
