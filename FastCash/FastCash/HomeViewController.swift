@@ -126,6 +126,22 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let accountVC = storyboard.instantiateViewController(identifier: "account") as? AccountViewController else {
+            assertionFailure("no account controller")
+            return
+        }
+        
+        guard let wallet = self.wallet else { return }
+        accountVC.wallet = wallet
+        accountVC.accountIndex = indexPath.row
+
+        if let nav = self.navigationController {
+            nav.pushViewController(accountVC, animated: true)
+        } else {
+            assertionFailure("no account controller")
+        }
     }
     
     

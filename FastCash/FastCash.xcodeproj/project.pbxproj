@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		58E94D1845F98181EC548710 /* libPods-FastCash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EAD9BE9C643FA152368DF3E /* libPods-FastCash.a */; };
 		CD19948B25D72C41002526EE /* CustomPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD19948A25D72C41002526EE /* CustomPopup.swift */; };
+		CD19949825D73ADF002526EE /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD19949725D73ADF002526EE /* AccountViewController.swift */; };
 		F236FB49234B0C51002B8FFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F236FB48234B0C51002B8FFD /* AppDelegate.swift */; };
 		F236FB4B234B0C51002B8FFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F236FB4A234B0C51002B8FFD /* SceneDelegate.swift */; };
 		F236FB4D234B0C51002B8FFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F236FB4C234B0C51002B8FFD /* ViewController.swift */; };
@@ -46,6 +47,7 @@
 		4986282DE0337932A3F700E4 /* Pods-FastCash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FastCash.release.xcconfig"; path = "Target Support Files/Pods-FastCash/Pods-FastCash.release.xcconfig"; sourceTree = "<group>"; };
 		4CAE56C162F2B93C1445899B /* Pods-FastCash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FastCash.debug.xcconfig"; path = "Target Support Files/Pods-FastCash/Pods-FastCash.debug.xcconfig"; sourceTree = "<group>"; };
 		CD19948A25D72C41002526EE /* CustomPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopup.swift; sourceTree = "<group>"; };
+		CD19949725D73ADF002526EE /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		F236FB45234B0C51002B8FFD /* FastCash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastCash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F236FB48234B0C51002B8FFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F236FB4A234B0C51002B8FFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				F236FB53234B0C53002B8FFD /* LaunchScreen.storyboard */,
 				F236FB56234B0C53002B8FFD /* Info.plist */,
 				CD19948A25D72C41002526EE /* CustomPopup.swift */,
+				CD19949725D73ADF002526EE /* AccountViewController.swift */,
 			);
 			path = FastCash;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				F2BA1A7A25C32BB500AD093E /* Extensions.swift in Sources */,
 				F2E2D6FA25B630E4007DE2BE /* VerificationViewController.swift in Sources */,
 				CD19948B25D72C41002526EE /* CustomPopup.swift in Sources */,
+				CD19949825D73ADF002526EE /* AccountViewController.swift in Sources */,
 				F2E2D6E525B62E58007DE2BE /* Api.swift in Sources */,
 				F236FB4B234B0C51002B8FFD /* SceneDelegate.swift in Sources */,
 				F2E2D6FF25B63225007DE2BE /* HomeViewController.swift in Sources */,

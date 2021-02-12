@@ -67,6 +67,7 @@ class CustomPopup: UIView {
         self.titleLabel = headerLabel
         
         // add textfield
+        // TODO: set default value somehow
         let textField = UITextField(frame: CGRect(x: 16, y: Int(headerLabel.bounds.height) + 32, width: windowWidth - 32, height: 40))
         let textFieldMaxY = Int(headerLabel.bounds.height) + 32 + 40
         textField.borderStyle = UITextField.BorderStyle.roundedRect

@@ -491,6 +491,139 @@
             </objects>
             <point key="canvasLocation" x="1521.7391304347827" y="115.84821428571428"/>
         </scene>
+        <!--Account View Controller-->
+        <scene sceneID="rBw-1Q-euU">
+            <objects>
+                <viewController storyboardIdentifier="account" id="wjM-PY-YO6" customClass="AccountViewController" customModule="FastCash" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lmb-QC-Apq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QpM-4V-UpM">
+                                <rect key="frame" x="103.5" y="109" width="207" height="36"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$45.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bX-HC-mkT">
+                                <rect key="frame" x="138" y="185" width="138" height="51"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UdK-JC-kje">
+                                <rect key="frame" x="349" y="44" width="45" height="35"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="wjM-PY-YO6" eventType="touchUpInside" id="Fcq-sm-S2o"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsY-XE-CXK">
+                                <rect key="frame" x="157" y="276" width="100" height="36"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Rf4-bb-coi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Deposit">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="depositButtonPressed:" destination="wjM-PY-YO6" eventType="touchUpInside" id="sGv-rQ-n8M"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yL5-3S-BaG">
+                                <rect key="frame" x="157" y="364" width="100" height="36"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="pcg-Ef-Tw4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Transfer">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="transferButtonPressed:" destination="wjM-PY-YO6" eventType="touchUpInside" id="YWR-Hw-Pue"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Tw-Hd-0Ek">
+                                <rect key="frame" x="157" y="408" width="100" height="36"/>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Cor-q0-2A3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="deleteButtonPressed:" destination="wjM-PY-YO6" eventType="touchUpInside" id="b9D-qV-ZVn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7q0-ua-fTY">
+                                <rect key="frame" x="157" y="320" width="100" height="36"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="1rH-Ca-UHc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Withdraw">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="withdrawButtonPressed:" destination="wjM-PY-YO6" eventType="touchUpInside" id="Ur5-BX-2kg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rdd-Mu-Ewz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QpM-4V-UpM" firstAttribute="centerX" secondItem="lmb-QC-Apq" secondAttribute="centerX" id="0T0-Kd-Jnl"/>
+                            <constraint firstItem="4bX-HC-mkT" firstAttribute="top" secondItem="QpM-4V-UpM" secondAttribute="bottom" constant="40" id="5Zr-MU-ePU"/>
+                            <constraint firstItem="7Tw-Hd-0Ek" firstAttribute="centerX" secondItem="lmb-QC-Apq" secondAttribute="centerX" id="7Va-8e-DZf"/>
+                            <constraint firstItem="7q0-ua-fTY" firstAttribute="top" secondItem="dsY-XE-CXK" secondAttribute="bottom" constant="8" id="DIt-dh-ULD"/>
+                            <constraint firstItem="7q0-ua-fTY" firstAttribute="centerX" secondItem="lmb-QC-Apq" secondAttribute="centerX" id="Dbr-Vj-yHn"/>
+                            <constraint firstItem="7Tw-Hd-0Ek" firstAttribute="top" secondItem="yL5-3S-BaG" secondAttribute="bottom" constant="8" id="F8j-JZ-AdC"/>
+                            <constraint firstItem="4bX-HC-mkT" firstAttribute="centerX" secondItem="lmb-QC-Apq" secondAttribute="centerX" id="Fqj-5H-Znc"/>
+                            <constraint firstItem="UdK-JC-kje" firstAttribute="top" secondItem="rdd-Mu-Ewz" secondAttribute="top" id="Veo-nP-Mfk"/>
+                            <constraint firstItem="dsY-XE-CXK" firstAttribute="centerX" secondItem="lmb-QC-Apq" secondAttribute="centerX" id="ZsJ-3Q-09E"/>
+                            <constraint firstItem="QpM-4V-UpM" firstAttribute="top" secondItem="rdd-Mu-Ewz" secondAttribute="top" constant="65" id="j9d-vI-AFh"/>
+                            <constraint firstItem="yL5-3S-BaG" firstAttribute="centerX" secondItem="lmb-QC-Apq" secondAttribute="centerX" id="ngz-wH-lnQ"/>
+                            <constraint firstItem="rdd-Mu-Ewz" firstAttribute="trailing" secondItem="UdK-JC-kje" secondAttribute="trailing" constant="20" id="qqH-uL-HWn"/>
+                            <constraint firstItem="yL5-3S-BaG" firstAttribute="top" secondItem="7q0-ua-fTY" secondAttribute="bottom" constant="8" id="u2L-OL-f9W"/>
+                            <constraint firstItem="dsY-XE-CXK" firstAttribute="top" secondItem="4bX-HC-mkT" secondAttribute="bottom" constant="40" id="wee-FJ-Mua"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="accountAmountLabel" destination="4bX-HC-mkT" id="O92-1L-e8i"/>
+                        <outlet property="accountNameLabel" destination="QpM-4V-UpM" id="c9g-Pb-bT9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oGT-sD-BRD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2184" y="119"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="groupTableViewBackgroundColor">
@@ -498,6 +631,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
