@@ -11,7 +11,7 @@ import UIKit
 
 protocol PopupEnded {
     func popupDidEnd(input: String)
-    func isExistingName(input: String) -> Bool
+    func popupValueIsValid(input: String) -> Bool
 }
 
 class CustomPopup: UIView {
@@ -19,6 +19,7 @@ class CustomPopup: UIView {
     var titleLabel: UILabel? = Optional.none
     var textField: UITextField? = Optional.none
     var errorLabel: UILabel? = Optional.none
+    var textFieldDefault: String = ""
     
     //initWithFrame to init view from code
     override init(frame: CGRect) {
@@ -36,13 +37,17 @@ class CustomPopup: UIView {
         self.endEditing(true)
     }
     
+    func setTextFieldDefault(defaultValue: String) {
+        self.textField?.placeholder = defaultValue
+    }
+    
     func setTitle(title: String) {
         self.titleLabel?.text = title
     }
     
     // display this error if an account name already exist
-    func accountNameError() {
-        self.errorLabel?.text = "this account name already exist"
+    func setError(error: String) {
+        self.errorLabel?.text = error
     }
 
     //common func to init our view
@@ -95,6 +100,7 @@ class CustomPopup: UIView {
         errorLabel.text = ""
         errorLabel.textColor = .red
         errorLabel.textAlignment = .center
+        errorLabel.isHidden = true
         window.addSubview(errorLabel)
         self.errorLabel = errorLabel
         
@@ -104,17 +110,23 @@ class CustomPopup: UIView {
     
     @objc func onClick(sender: UIButton) {
         if let delegate = self.delegate {
-            guard let input = self.textField?.text else { return }
+            guard var input = self.textField?.text else { return }
             // check if the account name already exist
-            if delegate.isExistingName(input: input) == false {
+            if delegate.popupValueIsValid(input: input) {
                 // create the account if name is valid
                 self.endEditing(true)
                 self.isHidden = true
+                
+                if input == "" {
+                    input = self.textField?.placeholder ?? ""
+                }
                 
                 delegate.popupDidEnd(input: input)
                 
                 self.textField?.text = ""
                 self.errorLabel?.text = ""
+            } else {
+                self.errorLabel?.isHidden = false
             }
         }
     }

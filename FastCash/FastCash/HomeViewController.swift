@@ -44,6 +44,16 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBAction func createButtonPressed(_ sender: Any) {
         self.popup?.setTitle(title: "Please name your new account")
+        
+        var index = 1
+        while true {
+            let input = "Account \(index)"
+            if self.validAccountName(input: input) {
+                self.popup?.setTextFieldDefault(defaultValue: input)
+                break
+            }
+            index += 1
+        }
         self.popup?.isHidden = false
     }
     
@@ -125,8 +135,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let accountVC = storyboard.instantiateViewController(identifier: "account") as? AccountViewController else {
             assertionFailure("no account controller")
@@ -188,14 +196,21 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-    // iterate through the accounts to check for existing name
-    func isExistingName(input: String) -> Bool {
+    func validAccountName(input: String) -> Bool {
         for account in accounts {
             if input == account.name {
-                self.popup?.accountNameError()
-                return true
+                return false
             }
         }
+        
+        return true
+    }
+    
+    // iterate through the accounts to check for existing name
+    func popupValueIsValid(input: String) -> Bool {
+        if self.validAccountName(input: input) { return true }
+        
+        self.popup?.setError(error: "this account name already exist")
         return false
     }
     
