@@ -207,7 +207,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     // iterate through the accounts to check for existing name
-    func popupValueIsValid(input: String) -> Bool {
+    func popupValueIsValid(input: String, pickerData: Int?) -> Bool {
         if self.validAccountName(input: input) { return true }
         
         self.popup?.setError(error: "this account name already exist")

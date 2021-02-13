@@ -11,7 +11,7 @@ import UIKit
 
 protocol PopupEnded {
     func popupDidEnd(input: String, pickerData: Int?)
-    func popupValueIsValid(input: String) -> Bool
+    func popupValueIsValid(input: String, pickerData: Int?) -> Bool
 }
 
 class CustomPopup: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -153,8 +153,10 @@ class CustomPopup: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     @objc func onClick(sender: UIButton) {
         if let delegate = self.delegate {
             guard var input = self.textField?.text else { return }
+            let selected = self.picker?.selectedRow(inComponent: 0) ?? 0
+            
             // check if the account name already exist
-            if delegate.popupValueIsValid(input: input) {
+            if delegate.popupValueIsValid(input: input, pickerData: selected) {
                 // create the account if name is valid
                 self.endEditing(true)
                 self.isHidden = true
@@ -164,7 +166,6 @@ class CustomPopup: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
                 }
                 
                 if self.usePicker {
-                    let selected = self.picker?.selectedRow(inComponent: 0) ?? 0
                     delegate.popupDidEnd(input: input, pickerData: selected)
                 } else {
                     delegate.popupDidEnd(input: input, pickerData: nil)

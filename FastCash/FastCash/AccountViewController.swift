@@ -49,8 +49,12 @@ class AccountViewController: UIViewController, PopupEnded {
         }
     }
     
-    func popupValueIsValid(input: String) -> Bool {
-        return true
+    func popupValueIsValid(input: String, pickerData: Int?) -> Bool {
+        let amount = Double(input) ?? 0.0
+        let account = self.wallet.accounts[self.accountIndex]
+        
+        self.popup?.setError(error: "not enough money to transfer")
+        return amount <= account.amount
     }
     
     func formatMoney(amount: Double) -> String {
