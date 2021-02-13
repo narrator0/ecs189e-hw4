@@ -17,14 +17,15 @@ class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("in account controller")
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.accountNameLabel.text = self.wallet.accounts[self.accountIndex].name
-        if self.accountIndex >= self.wallet.accounts.count - 1 {
+        if self.accountIndex <= self.wallet.accounts.count - 1 {
             self.accountAmountLabel.text = self.formatMoney(amount: self.wallet.accounts[self.accountIndex].amount)
         }
-
-        // Do any additional setup after loading the view.
     }
     
     func formatMoney(amount: Double) -> String {
