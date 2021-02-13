@@ -188,6 +188,17 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    // iterate through the accounts to check for existing name
+    func isExistingName(input: String) -> Bool {
+        for account in accounts {
+            if input == account.name {
+                self.popup?.accountNameError()
+                return true
+            }
+        }
+        return false
+    }
+    
     @IBAction func tap(_ sender: Any) {
         self.view.endEditing(true)
         self.tapGestureRecognizer.isEnabled = false

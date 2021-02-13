@@ -11,12 +11,14 @@ import UIKit
 
 protocol PopupEnded {
     func popupDidEnd(input: String)
+    func isExistingName(input: String) -> Bool
 }
 
 class CustomPopup: UIView {
     var delegate: PopupEnded? = Optional.none
     var titleLabel: UILabel? = Optional.none
     var textField: UITextField? = Optional.none
+    var errorLabel: UILabel? = Optional.none
     
     //initWithFrame to init view from code
     override init(frame: CGRect) {
@@ -36,6 +38,11 @@ class CustomPopup: UIView {
     
     func setTitle(title: String) {
         self.titleLabel?.text = title
+    }
+    
+    // display this error if an account name already exist
+    func accountNameError() {
+        self.errorLabel?.text = "this account name already exist"
     }
 
     //common func to init our view
@@ -82,16 +89,33 @@ class CustomPopup: UIView {
         button.addTarget(self, action: #selector(self.onClick), for: .touchUpInside)
         window.addSubview(button)
         
+        // add Error Message
+        let errorLabel = UILabel(frame: CGRect(x: 16, y: Int(headerLabel.bounds.height) + 150, width: windowWidth - 32, height: 20))
+        errorLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        errorLabel.text = ""
+        errorLabel.textColor = .red
+        errorLabel.textAlignment = .center
+        window.addSubview(errorLabel)
+        self.errorLabel = errorLabel
+        
+        
         self.addSubview(window)
     }
     
     @objc func onClick(sender: UIButton) {
-        self.endEditing(true)
-        self.isHidden = true
-        
         if let delegate = self.delegate {
             guard let input = self.textField?.text else { return }
-            delegate.popupDidEnd(input: input)
+            // check if the account name already exist
+            if delegate.isExistingName(input: input) == false {
+                // create the account if name is valid
+                self.endEditing(true)
+                self.isHidden = true
+                
+                delegate.popupDidEnd(input: input)
+                
+                self.textField?.text = ""
+                self.errorLabel?.text = ""
+            }
         }
     }
 }

@@ -91,15 +91,13 @@ class AccountViewController: UIViewController {
     }
     
     func checkBalance(withdrawAmount: Double) -> Double {
-        //var userInput: Double = self.formatMoney(amount: Double(withdrawAmount))
-//        var currentBalance = self.formatMoney(amount: self.accountAmountLabel.text)
         let currBalance = self.wallet.accounts[self.accountIndex].amount
         if (withdrawAmount <= currBalance) {
             return withdrawAmount
         } else {
             return currBalance
         }
-}
+    }
     
     @IBAction func transferButtonPressed(_ sender: Any) {
     }
