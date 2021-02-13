@@ -10,16 +10,19 @@ import Foundation
 import UIKit
 
 protocol PopupEnded {
-    func popupDidEnd(input: String)
+    func popupDidEnd(input: String, pickerData: Int?)
     func popupValueIsValid(input: String) -> Bool
 }
 
-class CustomPopup: UIView {
+class CustomPopup: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
     var delegate: PopupEnded? = Optional.none
     var titleLabel: UILabel? = Optional.none
     var textField: UITextField? = Optional.none
     var errorLabel: UILabel? = Optional.none
+    var picker: UIPickerView? = Optional.none
     var textFieldDefault: String = ""
+    var usePicker: Bool = false
+    var pickerData: [String] = []
     
     //initWithFrame to init view from code
     override init(frame: CGRect) {
@@ -49,9 +52,40 @@ class CustomPopup: UIView {
     func setError(error: String) {
         self.errorLabel?.text = error
     }
+    
+    func setKeyBoardType(type: UIKeyboardType) {
+        self.textField?.keyboardType = type
+    }
+    
+    func setPicker(enabled: Bool) {
+        self.usePicker = enabled
+        self.setupView()
+    }
+    
+    func setPickerData(_ data: [String]) {
+        self.pickerData = data
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.pickerData.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.pickerData[row]
+    }
 
     //common func to init our view
     private func setupView() {
+        // remove previous subview if any
+        if self.subviews.count == 1 {
+            let view = self.subviews[0]
+            view.removeFromSuperview()
+        }
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTap))
         self.addGestureRecognizer(tapGesture)
         
@@ -70,18 +104,26 @@ class CustomPopup: UIView {
         window.layer.shadowRadius = 10
         
         // add title label
-        let headerLabel = UILabel(frame: CGRect(x: 0, y: 16, width: windowWidth, height: 40))
-        headerLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        headerLabel.text = ""
-        headerLabel.textAlignment = .center
-        headerLabel.textColor = .black
-        window.addSubview(headerLabel)
-        self.titleLabel = headerLabel
+        let firstItemHeight = 50
+        if self.usePicker {
+            let picker = UIPickerView(frame: CGRect(x: 0, y: 16, width: windowWidth, height: firstItemHeight))
+            picker.dataSource = self
+            picker.delegate = self
+            self.picker = picker
+            window.addSubview(picker)
+        } else {
+            let headerLabel = UILabel(frame: CGRect(x: 0, y: 16, width: windowWidth, height: firstItemHeight))
+            headerLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+            headerLabel.text = ""
+            headerLabel.textAlignment = .center
+            headerLabel.textColor = .black
+            window.addSubview(headerLabel)
+            self.titleLabel = headerLabel
+        }
         
         // add textfield
-        // TODO: set default value somehow
-        let textField = UITextField(frame: CGRect(x: 16, y: Int(headerLabel.bounds.height) + 32, width: windowWidth - 32, height: 40))
-        let textFieldMaxY = Int(headerLabel.bounds.height) + 32 + 40
+        let textField = UITextField(frame: CGRect(x: 16, y: firstItemHeight + 32, width: windowWidth - 32, height: 40))
+        let textFieldMaxY = 40 + 32 + 40
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         window.addSubview(textField)
         self.textField = textField
@@ -95,7 +137,7 @@ class CustomPopup: UIView {
         window.addSubview(button)
         
         // add Error Message
-        let errorLabel = UILabel(frame: CGRect(x: 16, y: Int(headerLabel.bounds.height) + 150, width: windowWidth - 32, height: 20))
+        let errorLabel = UILabel(frame: CGRect(x: 16, y: firstItemHeight + 150, width: windowWidth - 32, height: 20))
         errorLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         errorLabel.text = ""
         errorLabel.textColor = .red
@@ -121,7 +163,12 @@ class CustomPopup: UIView {
                     input = self.textField?.placeholder ?? ""
                 }
                 
-                delegate.popupDidEnd(input: input)
+                if self.usePicker {
+                    let selected = self.picker?.selectedRow(inComponent: 0) ?? 0
+                    delegate.popupDidEnd(input: input, pickerData: selected)
+                } else {
+                    delegate.popupDidEnd(input: input, pickerData: nil)
+                }
                 
                 self.textField?.text = ""
                 self.errorLabel?.text = ""

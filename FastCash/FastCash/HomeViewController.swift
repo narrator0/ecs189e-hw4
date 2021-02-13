@@ -187,7 +187,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return String(newChars.reversed())
     }
     
-    func popupDidEnd(input: String) {
+    func popupDidEnd(input: String, pickerData: Int?) {
         guard let wallet = self.wallet else { return }
         self.wait()
         Api.addNewAccount(wallet: wallet, newAccountName: input) { res, err in

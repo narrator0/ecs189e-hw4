@@ -8,16 +8,26 @@
 
 import UIKit
 
-class AccountViewController: UIViewController {
+class AccountViewController: UIViewController, PopupEnded {
     
     var wallet = Wallet()
     var accountIndex: Int = -1
+    var popup: CustomPopup? = Optional.none
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var accountAmountLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        // set up popup
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        let popup = CustomPopup(frame: frame)
+        self.view.addSubview(popup)
+        popup.isHidden = true
+        popup.setKeyBoardType(type: UIKeyboardType.numberPad)
+        popup.delegate = self
+        self.popup = popup
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,6 +36,21 @@ class AccountViewController: UIViewController {
         if self.accountIndex <= self.wallet.accounts.count - 1 {
             self.accountAmountLabel.text = self.formatMoney(amount: self.wallet.accounts[self.accountIndex].amount)
         }
+    }
+    
+    func popupDidEnd(input: String, pickerData: Int?) {
+        guard let selectedIndex = pickerData else { return }
+        var amount = Double(input) ?? 0.0
+        amount = self.checkBalance(withdrawAmount: amount)
+        Api.transfer(wallet: self.wallet, fromAccountAt: self.accountIndex, toAccountAt: selectedIndex, amount: amount) { res, err in
+            let homeVC = self.navigationController?.viewControllers.first as? HomeViewController
+            homeVC?.updateWallet(response: res)
+            self.accountAmountLabel.text = self.formatMoney(amount: self.wallet.accounts[self.accountIndex].amount)
+        }
+    }
+    
+    func popupValueIsValid(input: String) -> Bool {
+        return true
     }
     
     func formatMoney(amount: Double) -> String {
@@ -100,6 +125,12 @@ class AccountViewController: UIViewController {
     }
     
     @IBAction func transferButtonPressed(_ sender: Any) {
+        self.popup?.setTitle(title: "test")
+        let pickerData: [String] = self.wallet.accounts.map { "\($0.name) \(self.formatMoney(amount: $0.amount))" }
+        self.popup?.setPickerData(pickerData)
+        self.popup?.setPicker(enabled: true)
+        self.popup?.setKeyBoardType(type: UIKeyboardType.numberPad)
+        self.popup?.isHidden = false
     }
     
     @IBAction func deleteButtonPressed(_ sender: Any) {
