@@ -1,15 +1,14 @@
 # Homework 4
 
 ### Team Data Pirates
-Hao Huang - 917258657
 
-Huichueh Lo - 915070701
-
-Justin Lim - 915207228
-
-Subin Yun - 913994892
-
-Thu Vo - 917260098
+| Name | SID |
+|------|-----|
+| Hao Huang | 917258657 |
+| Huichueh Lo | 915070701 |
+| Justin Lim | 915207228 |
+| Subin Yun | 913994892 |
+| Thu Vo | 917260098 |
 
 
 ## Note for the graders
@@ -52,18 +51,26 @@ This function uses UIAlertController to call a alert popup. If user tries to wit
 This helper function passes a Double value and returns a Double value. The input Double value is the amount user enters and is compared to the current balance. Whichever value is smaller is returned to the withdrawButtonPressed function (see above).
 
 ### transferButtonPressed
+This function will show the custom popup for the user to select which account and amount to transfer. The actual transfer will be dealt in `popupDidEnd`.
+
+### popupDidEnd
+This is a implementation of the protocol from the custom popup. In the controller, it is for handling transfers when the user presses done. This function simply take the account to tranfer and the amount. Then, call `Api.transfer`.
 
 
 ### deleteButtonPressed
 This function calls Api.remove Account to remove the current account in the list of accounts in wallet and update the wallet accordingly. This button pressed should also lead user back to the Home VC.
 
-
-## CustomPopup
-This class implements the Pop up window when user tries to create a new account. It implements protocol PopupEnded. The class CustomPopup manually set up the Title, textfield, "Done" button, and error message that's displayed on the Pop up. 
+## PopupEnded Protocol
 
 ### popupDidEnd
-This protocol function passes the account name user enters as a String value. It ends the pop up window, updates the wallet, and returns to the Home VC.
+This will be called when popup is closed. It will pass the users input.
 
 ### popupValueIsValid
-This protocol function takes the account name user enters as a String value and returns a Bool value. If the account name already exists in the accounts[], return true and display an error message.
+This can be used to reject certain inputs. In our case, if the user wants to create an account that already exists, this will return false and not call `popupDidEnd`. Additionally, it will show whatever error message that needs to display.
+
+## CustomPopup
+
+This is our custom UIView that is a popup. It allows the user to change to have a title + input + done button (for create account) or a data picker + input + done button (for transfer). It is created such that it can be as general purpose as possible. The user can set whatever title, input field placeholder, input field keyboard type, and error message they want.
+
+If the user wants to have a data picker, the user can call `setPicker(true)` to enable the data picker. Then, set the selectable choices via `setPickerData`.
 
